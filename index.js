@@ -4,6 +4,18 @@ const PORT = 5000;
 
 const ad = require('./lib/activeDirectory');
 
+app.post('/groups/:groupCn', (req, res) => {
+  ad.createGroup(req.params.groupCn).then(() => {
+    res.status(201).send();
+  });
+});
+
+app.delete('/groups/:groupCn', (req, res) => {
+  ad.deleteGroup(req.params.groupCn).then(() => {
+    res.status(204).send();
+  });
+});
+
 app.get('/groups/:groupCn', (req, res) => {
   ad.getEmailsFromGroup(req.params.groupCn).then((members) => {
     res.set({
