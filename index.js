@@ -1,6 +1,9 @@
 require('dotenv').config();
-const app = require('express')();
+const express = require('express');
+const app = express();
 const PORT = 5000;
+
+app.use(express.json());
 
 const ad = require('./lib/activeDirectory');
 
@@ -34,11 +37,11 @@ app.put('/groups/:groupCn/users/:userCn', (req, res) => {
   });
 });
 
-app.delete('/groups/:groupCn/users/:userCn', (req, res) => {
+app.delete('/groups/:groupCn/users/', (req, res) => {
   const group = req.params.groupCn;
-  const user = req.params.userCn;
+  const { users } = req.body;
 
-  ad.removeUserFromGroup(user, group).then(() => {
+  ad.removeUsersFromGroup(users, group).then(() => {
     res.status(204).send();
   });
 });
