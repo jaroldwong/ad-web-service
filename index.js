@@ -20,7 +20,7 @@ app.delete('/groups/:groupCn', (req, res) => {
 });
 
 app.get('/groups/:groupCn', (req, res) => {
-  ad.getMembersFromGroup(req.params.groupCn, field).then((members) => {
+  ad.getMembersFromGroup(req.params.groupCn).then((members) => {
     res.set({
       'Content-type': 'text/plain',
     });
@@ -37,11 +37,11 @@ app.put('/groups/:groupCn/sam/:sam', (req, res) => {
   });
 });
 
-app.put('/groups/:groupCn/users/:userCn', (req, res) => {
+app.put('/groups/:groupCn/users/', (req, res) => {
   const group = req.params.groupCn;
-  const user = req.params.userCn;
+  const { users } = req.body;
 
-  ad.addUserToGroup(user, group).then(() => {
+  ad.addUsersToGroup(users, group).then(() => {
     res.status(204).send();
   });
 });
