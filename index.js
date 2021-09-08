@@ -20,11 +20,20 @@ app.delete('/groups/:groupCn', (req, res) => {
 });
 
 app.get('/groups/:groupCn', (req, res) => {
-  ad.getEmailsFromGroup(req.params.groupCn).then((members) => {
+  ad.getMembersFromGroup(req.params.groupCn, field).then((members) => {
     res.set({
       'Content-type': 'text/plain',
     });
     res.send(members.join('\n'));
+  });
+});
+
+app.put('/groups/:groupCn/sam/:sam', (req, res) => {
+  const group = req.params.groupCn;
+  const sam = req.params.sam;
+
+  ad.addGroupToGroup(sam, group).then(() => {
+    res.status(204).send();
   });
 });
 
